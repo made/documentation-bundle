@@ -1,0 +1,90 @@
+parameters:
+
+services:
+  made_documentation.service_template.template_resolver:
+    class: Made\DocumentationBundle\Service\Template\TemplateResolver
+    arguments:
+      - '@twig'
+    public: false
+
+  made_documentation.service_template.template_resolver_interface:
+    alias: 'made_documentation.service_template.template_resolver'
+    public: false
+
+  made_documentation.service_template.template_data_resolver:
+    class: Made\DocumentationBundle\Service\Template\TemplateDataResolver
+    arguments:
+      - '@made_documentation.repository_implementation_file.page_output_repository'
+    public: false
+
+  made_documentation.service_template.template_data_resolver_interface:
+    alias: 'made_documentation.service_template.template_data_resolver'
+    public: false
+
+  made_documentation.service_page.page_render_service:
+    class: Made\DocumentationBundle\Service\Page\PageRenderService
+    arguments:
+      - '@twig'
+      - '@made_documentation.service_template.template_resolver_interface'
+      - '@made_documentation.service_template.template_data_resolver_interface'
+    public: false
+
+  made_documentation.service_page.page_input_service:
+    class: Made\DocumentationBundle\Service\Page\PageInputService
+    public: false
+
+  made_documentation.service_page.page_output_service:
+    class: Made\DocumentationBundle\Service\Page\PageOutputService
+    arguments:
+      - '@made_documentation.service_page.page_render_service'
+    public: false
+
+  parsedown:
+    class: Parsedown
+    factory: ['Made\DocumentationBundle\DependencyInjection\Factory\ParsedownFactory', 'create']
+    public: false
+
+  made_documentation.service_page.page_conversion_service:
+    class: Made\DocumentationBundle\Service\Page\PageConversionService
+    arguments:
+      - '@parsedown'
+    public: false
+
+  made_documentation.repository_implementation_file.page_input_repository:
+    class: Made\DocumentationBundle\Repository\Implementation\File\PageInputRepository
+    arguments:
+      - '@made_documentation.service_page.page_input_service'
+    public: false
+
+  made_documentation.repository.page_input_repository_interface:
+    alias: 'made_documentation.repository_implementation_file.page_input_repository'
+    public: false
+
+  made_documentation.repository_implementation_file.page_output_repository:
+    class: Made\DocumentationBundle\Repository\Implementation\File\PageOutputRepository
+    arguments:
+      - '@made_documentation.repository_implementation_file.page_input_repository'
+      - '@made_documentation.service_page.page_conversion_service'
+    public: false
+
+  made_documentation.repository.page_output_repository_interface:
+    alias: 'made_documentation.repository_implementation_file.page_output_repository'
+    public: false
+
+  made_documentation.service.build_service:
+    class: Made\DocumentationBundle\Service\BuildService
+    arguments:
+      - '@made_documentation.repository.page_output_repository_interface'
+      - '@made_documentation.service_page.page_output_service'
+    public: false
+
+  Made\DocumentationBundle\Service\BuildService:
+    alias: 'made_documentation.service.build_service'
+    public: true
+
+  made_documentation.command.build_command:
+    class: Made\DocumentationBundle\Command\BuildCommand
+    arguments:
+      - '@made_documentation.service.build_service'
+    tags:
+      - { name: console.command }

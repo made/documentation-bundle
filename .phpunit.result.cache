@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":248:{a:2:{s:7:"defects";a:2:{s:7:"Warning";i:6;s:68:"Made\DocumentationBundle\Tests\Command\BuildCommandTest::testExecute";i:4;}s:5:"times";a:2:{s:7:"Warning";d:0.009;s:68:"Made\DocumentationBundle\Tests\Command\BuildCommandTest::testExecute";d:0.323;}}}

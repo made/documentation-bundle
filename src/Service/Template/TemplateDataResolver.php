@@ -19,6 +19,7 @@
 
 namespace Made\DocumentationBundle\Service\Template;
 
+use DateTime;
 use Help\Path;
 use Made\DocumentationBundle\Model\Configuration;
 use Made\DocumentationBundle\Model\PageInput;
@@ -57,6 +58,7 @@ class TemplateDataResolver implements TemplateDataResolverInterface
         $otherVersionList = $this->getVersionList($configuration, $pageOutput);
 
         return [
+            'date' => (new DateTime()),
             'root' => $root,
             'page' => $pageOutput,
             'other_version_list' => $otherVersionList,

@@ -20,6 +20,7 @@
 namespace Made\DocumentationBundle\Service\Page;
 
 use Help\Path;
+use Help\Slug;
 use Made\DocumentationBundle\Model\Configuration;
 use Made\DocumentationBundle\Model\PageInput;
 use Made\DocumentationBundle\Model\PageOutput;
@@ -58,6 +59,7 @@ class PageConversionService
             $configuration->getLinkBase() ?: '',
             $pageInput->getPath(),
         ]);
+        $link = Slug::sanitize($link);
         $level = $pageInput->getLevel();
 
         $content = $pageInput->getContent();

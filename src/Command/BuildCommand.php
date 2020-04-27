@@ -58,8 +58,8 @@ class BuildCommand extends Command
             ->setDescription('Generate static documentation from markdown files.')
             ->addArgument('path-from', InputArgument::REQUIRED, 'Path to the content', null)
             ->addArgument('path-to', InputArgument::REQUIRED, 'Path to the content output', null)
-            ->addOption('template-namespace', 't', InputOption::VALUE_REQUIRED, 'Template namespace', null)
-            ->addOption('link-base', 'l', InputOption::VALUE_REQUIRED, 'Link base of the content', null);
+            ->addOption('template-namespace', 't', InputOption::VALUE_REQUIRED, 'Template namespace of the content output', null)
+            ->addOption('link-base', 'l', InputOption::VALUE_REQUIRED, 'Link base of the content output', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
